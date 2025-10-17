@@ -1,0 +1,7 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "dart.flutterSdkPath": "C:\\Users\\ntoam\\Develop\\flutter",
+    "dart.androidSdkPath": "C:\\Android",
+    "dart.flutterRunLogFile": "${workspaceFolder}/.dart_tool/flutter_run.log",
+    "dart.debugLogFile": "${workspaceFolder}/.dart_tool/debug.log"
+}

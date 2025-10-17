@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🚨 FuelSOS - Emergency Fuel Dispatch</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #333;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header {
+        text-align: center;
+        color: white;
+        margin-bottom: 30px;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        opacity: 0.9;
+        font-size: 1.1rem;
+      }
+
+      .screen {
+        display: none;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        flex: 1;
+      }
+
+      .screen.active {
+        display: block;
+      }
+
+      /* Home Screen */
+      .location-status {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+      }
+
+      .location-icon {
+        color: #28a745;
+        margin-right: 12px;
+        font-size: 1.2rem;
+      }
+
+      .sos-button {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #e53e3e, #c53030);
+        border: none;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 0 auto 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 30px rgba(229, 62, 62, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .sos-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(229, 62, 62, 0.4);
+      }
+
+      .sos-button:active {
+        transform: scale(0.95);
+      }
+
+      .sos-button.loading {
+        background: #6c757d;
+        cursor: not-allowed;
+      }
+
+      .emergency-info {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+      }
+
+      .emergency-info h3 {
+        color: #856404;
+        margin-bottom: 10px;
+      }
+
+      .emergency-info p {
+        color: #856404;
+        font-size: 0.9rem;
+      }
+
+      /* Status Screen */
+      .status-header {
+        background: #28a745;
+        color: white;
+        text-align: center;
+        padding: 30px 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+      }
+
+      .status-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+      }
+
+      .attendant-card {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+      }
+
+      .attendant-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #007bff;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-right: 20px;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .action-btn {
+        flex: 1;
+        padding: 15px;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .call-btn {
+        background: #007bff;
+        color: white;
+      }
+
+      .chat-btn {
+        background: #28a745;
+        color: white;
+      }
+
+      .map-placeholder {
+        height: 200px;
+        background: #e9ecef;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        font-size: 1.1rem;
+      }
+
+      /* Chat Screen */
+      .chat-header {
+        background: #28a745;
+        color: white;
+        padding: 20px;
+        border-radius: 12px 12px 0 0;
+        margin: -30px -30px 20px -30px;
+      }
+
+      .messages {
+        height: 300px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 12px;
+      }
+
+      .message {
+        margin-bottom: 15px;
+        display: flex;
+      }
+
+      .message.sent {
+        justify-content: flex-end;
+      }
+
+      .message-bubble {
+        max-width: 70%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        font-size: 0.9rem;
+      }
+
+      .message.received .message-bubble {
+        background: #e9ecef;
+        color: #333;
+      }
+
+      .message.sent .message-bubble {
+        background: #28a745;
+        color: white;
+      }
+
+      .message-input {
+        display: flex;
+        gap: 10px;
+      }
+
+      .message-input input {
+        flex: 1;
+        padding: 12px 16px;
+        border: 1px solid #ddd;
+        border-radius: 24px;
+        outline: none;
+        font-size: 1rem;
+      }
+
+      .send-btn {
+        width: 45px;
+        height: 45px;
+        border: none;
+        border-radius: 50%;
+        background: #28a745;
+        color: white;
+        cursor: pointer;
+        font-size: 1.2rem;
+      }
+
+      /* Call Screen */
+      .call-screen {
+        background: #1e1e1e;
+        color: white;
+        text-align: center;
+        border-radius: 20px;
+      }
+
+      .call-header {
+        padding: 20px;
+        margin: -30px -30px 40px -30px;
+        background: #1e1e1e;
+        border-radius: 20px 20px 0 0;
+      }
+
+      .caller-info {
+        margin: 40px 0;
+      }
+
+      .caller-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: #007bff;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: white;
+      }
+
+      .call-controls {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin: 40px 0;
+      }
+
+      .call-control-btn {
+        width: 60px;
+        height: 60px;
+        border: none;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: white;
+      }
+
+      .mute-btn {
+        background: #6c757d;
+      }
+
+      .end-call-btn {
+        background: #dc3545;
+      }
+
+      .speaker-btn {
+        background: #6c757d;
+      }
+
+      .back-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #28a745;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        transform: translateX(300px);
+        transition: transform 0.3s ease;
+      }
+
+      .notification.show {
+        transform: translateX(0);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🚨 FuelSOS</h1>
+        <p>Emergency Fuel Dispatch System</p>
+      </div>
+
+      <!-- Home Screen -->
+      <div class="screen active" id="homeScreen">
+        <div class="location-status">
+          <div class="location-icon">📍</div>
+          <div>
+            <strong>Location detected</strong><br />
+            <small>Johannesburg, South Africa</small>
+          </div>
+        </div>
+
+        <button class="sos-button" id="sosButton" onclick="triggerSOS()">
+          <div style="font-size: 4rem; margin-bottom: 10px">🚨</div>
+          <div>SOS</div>
+          <div style="font-size: 0.8rem; margin-top: 8px">TAP FOR HELP</div>
+        </button>
+
+        <div class="emergency-info">
+          <h3>🔔 Emergency Use Only</h3>
+          <p>
+            This will send your location to nearby verified attendants. Misuse
+            will result in penalties.
+          </p>
+        </div>
+      </div>
+
+      <!-- Status Screen -->
+      <div class="screen" id="statusScreen">
+        <div class="status-header">
+          <div class="status-icon">✅</div>
+          <h2>Rescue Confirmed!</h2>
+          <p>ETA: 12 minutes</p>
+        </div>
+
+        <div class="attendant-card">
+          <div class="attendant-avatar">🧙‍♂️</div>
+          <div>
+            <h3>Lintshiwe Ntoampi</h3>
+            <p>Vehicle: GP-456-LNT</p>
+            <div style="margin-top: 5px">⭐ 4.9 (203 reviews)</div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="action-btn call-btn" onclick="showCallScreen()">
+            📞 Call
+          </button>
+          <button class="action-btn chat-btn" onclick="showChatScreen()">
+            💬 Chat
+          </button>
+        </div>
+
+        <div class="map-placeholder">
+          🗺️ Live Map Tracking<br />
+          <small>John is 1.2km away</small>
+        </div>
+      </div>
+
+      <!-- Chat Screen -->
+      <div class="screen" id="chatScreen">
+        <div class="chat-header">
+          <h2>Lintshiwe Ntoampi</h2>
+          <p>Code Wizard 🧙‍♂️ | Fuel Attendant</p>
+        </div>
+        <div class="messages" id="messages">
+          <div class="message received">
+            <div class="message-bubble">
+              Hi! I'm Lintshiwe, your fuel attendant. On my way to help you! ETA
+              10 minutes.
+            </div>
+          </div>
+          <div class="message sent">
+            <div class="message-bubble">
+              Thank you so much! I'm at the Shell station on Church Street,
+              Pretoria.
+            </div>
+          </div>
+          <div class="message received">
+            <div class="message-bubble">
+              Perfect! I can see your location in Pretoria. I have a 5L fuel
+              container ready.
+            </div>
+          </div>
+        </div>
+
+        <div class="message-input">
+          <input
+            type="text"
+            id="messageInput"
+            placeholder="Type a message..."
+            onkeypress="if(event.key==='Enter') sendMessage()"
+          />
+          <button class="send-btn" onclick="sendMessage()">📤</button>
+        </div>
+      </div>
+
+      <!-- Call Screen -->
+      <div class="screen call-screen" id="callScreen">
+        <div class="call-header">
+          <h3>FuelSOS Call</h3>
+          <p>Connected</p>
+        </div>
+
+        <div class="caller-info">
+          <div class="caller-avatar">🧙‍♂️</div>
+          <h2>Lintshiwe Ntoampi</h2>
+          <p>Code Wizard | Fuel Attendant</p>
+          <p id="callTimer">00:00</p>
+        </div>
+        <div class="call-controls">
+          <button class="call-control-btn mute-btn" onclick="toggleMute()">
+            🎤
+          </button>
+          <button class="call-control-btn end-call-btn" onclick="endCall()">
+            📞
+          </button>
+          <button
+            class="call-control-btn speaker-btn"
+            onclick="toggleSpeaker()"
+          >
+            🔊
+          </button>
+        </div>
+
+        <div
+          style="
+            background: rgba(255, 149, 0, 0.2);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 40px;
+          "
+        >
+          <p style="font-size: 0.9rem">
+            🔒 This call is being recorded for safety and quality purposes.
+          </p>
+        </div>
+      </div>
+
+      <button
+        class="back-btn"
+        id="backBtn"
+        onclick="goBack()"
+        style="display: none"
+      >
+        ← Back
+      </button>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+      let currentScreen = 'homeScreen'
+      let callTimer = 0
+      let callInterval
+      let isMuted = false
+      let isSpeakerOn = false
+
+      function showScreen(screenId) {
+        document
+          .querySelectorAll('.screen')
+          .forEach((s) => s.classList.remove('active'))
+        document.getElementById(screenId).classList.add('active')
+        currentScreen = screenId
+
+        const backBtn = document.getElementById('backBtn')
+        if (screenId === 'homeScreen') {
+          backBtn.style.display = 'none'
+        } else {
+          backBtn.style.display = 'block'
+        }
+      }
+
+      function triggerSOS() {
+        const sosBtn = document.getElementById('sosButton')
+        sosBtn.classList.add('loading')
+        sosBtn.innerHTML =
+          '<div style="font-size: 4rem; margin-bottom: 10px;">⏳</div><div>SENDING...</div>'
+
+        showNotification('🚨 SOS request sent! Finding nearby attendants...')
+
+        setTimeout(() => {
+          showScreen('statusScreen')
+          showNotification(
+            '✅ Rescue confirmed! Lintshiwe Ntoampi is on the way.'
+          )
+        }, 3000)
+      }
+
+      function showChatScreen() {
+        showScreen('chatScreen')
+      }
+
+      function showCallScreen() {
+        showScreen('callScreen')
+        startCallTimer()
+      }
+
+      function sendMessage() {
+        const input = document.getElementById('messageInput')
+        const message = input.value.trim()
+        if (!message) return
+
+        const messagesDiv = document.getElementById('messages')
+        const messageDiv = document.createElement('div')
+        messageDiv.className = 'message sent'
+        messageDiv.innerHTML = `<div class="message-bubble">${message}</div>`
+        messagesDiv.appendChild(messageDiv)
+        messagesDiv.scrollTop = messagesDiv.scrollHeight
+
+        input.value = ''
+
+        // Simulate response
+        setTimeout(() => {
+          const responseDiv = document.createElement('div')
+          responseDiv.className = 'message received'
+          responseDiv.innerHTML = `<div class="message-bubble">Got it! I'll be there soon.</div>`
+          messagesDiv.appendChild(responseDiv)
+          messagesDiv.scrollTop = messagesDiv.scrollHeight
+        }, 1500)
+      }
+
+      function startCallTimer() {
+        callTimer = 0
+        updateCallTimer()
+        callInterval = setInterval(updateCallTimer, 1000)
+      }
+
+      function updateCallTimer() {
+        const minutes = Math.floor(callTimer / 60)
+          .toString()
+          .padStart(2, '0')
+        const seconds = (callTimer % 60).toString().padStart(2, '0')
+        document.getElementById(
+          'callTimer'
+        ).textContent = `${minutes}:${seconds}`
+        callTimer++
+      }
+
+      function toggleMute() {
+        isMuted = !isMuted
+        const btn = document.querySelector('.mute-btn')
+        btn.textContent = isMuted ? '🎤' : '🔇'
+        btn.style.background = isMuted ? '#dc3545' : '#6c757d'
+      }
+
+      function toggleSpeaker() {
+        isSpeakerOn = !isSpeakerOn
+        const btn = document.querySelector('.speaker-btn')
+        btn.textContent = isSpeakerOn ? '🔊' : '🔉'
+        btn.style.background = isSpeakerOn ? '#007bff' : '#6c757d'
+      }
+
+      function endCall() {
+        clearInterval(callInterval)
+        const minutes = Math.floor(callTimer / 60)
+        const seconds = callTimer % 60
+        showNotification(
+          `📞 Call ended. Duration: ${minutes}:${seconds
+            .toString()
+            .padStart(2, '0')}`
+        )
+        goBack()
+      }
+
+      function goBack() {
+        if (currentScreen === 'chatScreen' || currentScreen === 'callScreen') {
+          showScreen('statusScreen')
+        } else if (currentScreen === 'statusScreen') {
+          showScreen('homeScreen')
+          // Reset SOS button
+          const sosBtn = document.getElementById('sosButton')
+          sosBtn.classList.remove('loading')
+          sosBtn.innerHTML =
+            '<div style="font-size: 4rem; margin-bottom: 10px;">🚨</div><div>SOS</div><div style="font-size: 0.8rem; margin-top: 8px;">TAP FOR HELP</div>'
+        }
+      }
+
+      function showNotification(message) {
+        const notification = document.getElementById('notification')
+        notification.textContent = message
+        notification.classList.add('show')
+
+        setTimeout(() => {
+          notification.classList.remove('show')
+        }, 4000)
+      }
+
+      // Initialize location
+      window.addEventListener('load', () => {
+        showNotification('📍 Location detected. FuelSOS is ready!')
+      })
+    </script>
+  </body>
+</html>
