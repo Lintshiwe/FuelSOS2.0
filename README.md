@@ -1,6 +1,16 @@
 # 🚨 FuelSOS - Emergency Fuel Dispatch System
 
+[![Hacktoberfest](https://img.shields.io/badge/Hacktoberfest-2025-blueviolet)](https://hacktoberfest.com)
+[![Flutter](https://img.shields.io/badge/Flutter-3.35.5-02569B?logo=flutter)](https://flutter.dev)
+[![Node.js](https://img.shields.io/badge/Node.js-16.x-339933?logo=node.js)](https://nodejs.org)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Lintshiwe/FuelSOS2.0/blob/main/.github/CONTRIBUTING.md)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 **One-tap SOS rescue + in-app communication between drivers and verified attendants**
+
+## 🎃 Hacktoberfest 2025
+
+This project is participating in **Hacktoberfest 2025**! We welcome contributions from developers worldwide. Check out our [Contributing Guide](.github/CONTRIBUTING.md) to get started!
 
 ## 🧭 Purpose
 

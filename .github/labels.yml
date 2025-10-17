@@ -1,0 +1,39 @@
+- name: hacktoberfest
+  description: Issues for Hacktoberfest contributors
+  color: ff6b6b
+
+- name: good first issue
+  description: Good for newcomers to the project
+  color: 7057ff
+
+- name: help wanted
+  description: Extra attention is needed
+  color: 008672
+
+- name: bug
+  description: Something isn't working
+  color: d73a4a
+
+- name: enhancement
+  description: New feature or request
+  color: a2eeef
+
+- name: documentation
+  description: Improvements or additions to documentation
+  color: 0075ca
+
+- name: frontend
+  description: Frontend Flutter app changes
+  color: 02d7f2
+
+- name: backend
+  description: Backend Node.js API changes
+  color: fbca04
+
+- name: android
+  description: Android platform specific
+  color: 3ddc84
+
+- name: web
+  description: Web platform specific
+  color: 1f77b4
