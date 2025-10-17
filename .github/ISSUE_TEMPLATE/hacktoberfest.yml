@@ -1,0 +1,95 @@
+name: 🎃 Hacktoberfest Contribution
+description: Contribute to FuelSOS for Hacktoberfest 2025
+title: '[HACKTOBERFEST]: '
+labels: ['hacktoberfest', 'good first issue']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Welcome to Hacktoberfest 2025! 🎃
+
+        Thank you for your interest in contributing to FuelSOS!
+
+  - type: dropdown
+    id: contribution-type
+    attributes:
+      label: Type of Contribution
+      description: What would you like to work on?
+      options:
+        - Bug Fix
+        - New Feature
+        - Documentation
+        - UI/UX Improvement
+        - Performance Optimization
+        - Test Coverage
+        - Code Refactoring
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What do you plan to contribute?
+      placeholder: I would like to...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part will you work on?
+      options:
+        - Frontend (Flutter Mobile App)
+        - Backend (Node.js API)
+        - Web Demo
+        - Documentation
+        - Build/Configuration
+        - Testing
+    validations:
+      required: true
+
+  - type: dropdown
+    id: experience
+    attributes:
+      label: Experience Level
+      description: Your experience with Flutter/Node.js
+      options:
+        - Beginner - Learning the basics
+        - Intermediate - Comfortable with fundamentals
+        - Advanced - Experienced developer
+    validations:
+      required: false
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation Plan
+      description: How do you plan to implement this?
+      placeholder: |
+        1. First step...
+        2. Second step...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Hacktoberfest Guidelines
+      description: Please confirm you understand the guidelines
+      options:
+        - label: I have read the [Contributing Guide](../CONTRIBUTING.md)
+          required: true
+        - label: I will follow the code of conduct
+          required: true
+        - label: I will write quality, meaningful code (no spam PRs)
+          required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Anything else you'd like to share?
+    validations:
+      required: false
