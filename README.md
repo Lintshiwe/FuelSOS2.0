@@ -6,7 +6,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Lintshiwe/FuelSOS2.0/blob/main/.github/CONTRIBUTING.md)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**One-tap SOS rescue + in-app communication between drivers and verified attendants**
+> One-tap SOS rescue + in-app communication between drivers and verified attendants
 
 ## 🎃 Hacktoberfest 2025
 
@@ -18,7 +18,7 @@ FuelSOS is a mobile-first rescue platform for South African drivers facing roads
 
 ## 🏗️ Project Structure
 
-```
+```text
 FuelSOS2.0/
 ├── frontend/          # Flutter mobile app
 │   ├── lib/

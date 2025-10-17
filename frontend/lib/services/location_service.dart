@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class LocationService extends ChangeNotifier {
   Position? _currentPosition;
@@ -20,7 +19,8 @@ class LocationService extends ChangeNotifier {
       // Check if location services are enabled
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        _error = 'Location services are disabled. Please enable location services.';
+        _error =
+            'Location services are disabled. Please enable location services.';
         _isLoading = false;
         notifyListeners();
         return false;
@@ -31,7 +31,8 @@ class LocationService extends ChangeNotifier {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          _error = 'Location permission denied. Please grant location permission.';
+          _error =
+              'Location permission denied. Please grant location permission.';
           _isLoading = false;
           notifyListeners();
           return false;
@@ -39,7 +40,8 @@ class LocationService extends ChangeNotifier {
       }
 
       if (permission == LocationPermission.deniedForever) {
-        _error = 'Location permission permanently denied. Please enable in settings.';
+        _error =
+            'Location permission permanently denied. Please enable in settings.';
         _isLoading = false;
         notifyListeners();
         return false;
@@ -77,7 +79,7 @@ class LocationService extends ChangeNotifier {
       _currentPosition = position;
       _isLoading = false;
       notifyListeners();
-      
+
       return position;
     } catch (e) {
       _error = 'Failed to get current location: $e';

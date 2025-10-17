@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:geolocator/geolocator.dart';
-import '../services/location_service.dart';
 import '../services/firebase_service.dart';
+import '../services/location_service.dart';
 import 'rescue_status_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -161,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           : const Color(0xFFE53E3E),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.red.withOpacity(0.3),
+                          color: Colors.red.withValues(alpha: 0.3),
                           spreadRadius: 5,
                           blurRadius: 20,
                           offset: const Offset(0, 8),
