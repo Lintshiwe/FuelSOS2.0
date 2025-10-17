@@ -11,13 +11,12 @@ class RescueStatusScreen extends StatefulWidget {
 }
 
 class _RescueStatusScreenState extends State<RescueStatusScreen> {
-  GoogleMapController? _mapController;
-  
   // Mock data - replace with real data from backend
   final String _attendantName = "Lintshiwe Ntoampi";
   final String _vehiclePlate = "GP-456-LNT";
   final int _etaMinutes = 10;
-  final LatLng _userLocation = const LatLng(-25.7479, 28.2293); // Pretoria, South Africa
+  final LatLng _userLocation =
+      const LatLng(-25.7479, 28.2293); // Pretoria, South Africa
   final LatLng _attendantLocation = const LatLng(-25.7419, 28.2383);
 
   @override
@@ -62,7 +61,7 @@ class _RescueStatusScreenState extends State<RescueStatusScreen> {
               ],
             ),
           ),
-          
+
           // Attendant Info
           Container(
             padding: const EdgeInsets.all(16),
@@ -120,7 +119,7 @@ class _RescueStatusScreenState extends State<RescueStatusScreen> {
               ),
             ),
           ),
-          
+
           // Communication Buttons
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -164,9 +163,9 @@ class _RescueStatusScreenState extends State<RescueStatusScreen> {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Live Map
           Expanded(
             child: Container(
@@ -201,7 +200,7 @@ class _RescueStatusScreenState extends State<RescueStatusScreen> {
                     ),
                   },
                   onMapCreated: (GoogleMapController controller) {
-                    _mapController = controller;
+                    // Map controller available here if needed
                   },
                 ),
               ),

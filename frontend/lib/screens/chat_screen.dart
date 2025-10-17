@@ -81,7 +81,7 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
-          
+
           // Message Input
           Container(
             padding: const EdgeInsets.all(16),
@@ -89,7 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
+                  color: Colors.grey.withValues(alpha: 0.1),
                   spreadRadius: 1,
                   blurRadius: 5,
                   offset: const Offset(0, -2),
@@ -194,9 +194,7 @@ class ChatBubble extends StatelessWidget {
                 vertical: 12,
               ),
               decoration: BoxDecoration(
-                color: message.isFromUser
-                    ? Colors.green
-                    : Colors.grey[200],
+                color: message.isFromUser ? Colors.green : Colors.grey[200],
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Column(
@@ -205,9 +203,7 @@ class ChatBubble extends StatelessWidget {
                   Text(
                     message.text,
                     style: TextStyle(
-                      color: message.isFromUser
-                          ? Colors.white
-                          : Colors.black87,
+                      color: message.isFromUser ? Colors.white : Colors.black87,
                       fontSize: 16,
                     ),
                   ),
